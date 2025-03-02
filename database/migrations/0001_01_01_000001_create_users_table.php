@@ -11,13 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /**
+         * Represents system employees.
+         */
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('rol_id')->constrained('roles')->cascadeOnDelete();
+            $table->foreignId('role_id')->constrained('roles')->cascadeOnDelete();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
             $table->timestamps();

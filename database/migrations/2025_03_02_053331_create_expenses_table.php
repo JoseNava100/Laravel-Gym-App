@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         /**
-         * Define the different user roles.
+         * Records expenses incurred during a shift.
          */
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('description')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('shift_id')->constrained('shifts')->cascadeOnDelete();
+            $table->decimal('amount', 10, 2);
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('expenses');
     }
 };

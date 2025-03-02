@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         /**
-         * Define the different user roles.
+         * Detail the products sold in each sale.
          */
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('sales_details', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('description')->nullable();
+            $table->foreignId('sale_id')->constrained('sales')->cascadeOnDelete();
+            $table->foreignId('inventory_id')->constrained('inventories')->cascadeOnDelete();
+            $table->integer('quantity');
+            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('sales_details');
     }
 };

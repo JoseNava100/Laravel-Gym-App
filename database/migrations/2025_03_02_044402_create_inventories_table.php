@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         /**
-         * Define the different user roles.
+         * Stores products sold within the establishment
          */
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('inventories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('description')->nullable();
+            $table->integer('quantity');
+            $table->enum('category', ['drink', 'merch', 'other'])->default('other');
+            $table->decimal('cost_price', 8, 2);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('inventories');
     }
 };
